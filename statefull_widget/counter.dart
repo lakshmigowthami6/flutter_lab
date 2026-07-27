@@ -50,7 +50,16 @@ class _MyAppState extends State<MyApp> {
                     c++; // Fixed the comma to a semicolon
                   });
                 },
-                child: Text("Click Me"),
+                child: Text("Increment"),
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    c--; // Fixed the comma to a semicolon
+                  });
+                },
+                child: Text("Decrement"),
               ),
             ],
           ),
