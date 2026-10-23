@@ -1,0 +1,74 @@
+//stateful widget example and stack containers
+import 'dart:html';
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+  @override
+  State<MyApp> createState() => MyAppState();
+}
+
+class MyAppState extends State<MyApp> {
+  int c = 0;
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.blue,
+          title: const Text("Stateful widgets example"),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.school,
+                color: Color(0xffa0d0d0),
+                size: 50,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Count: $c",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    c++;
+                  });
+                },
+                child: const Text("click me"),
+              ),
+              const SizedBox(height: 30), // Moved out of the children list
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    color: Color(0xffa9cdaa),
+                    width: 50,
+                    height: 50,
+                  ),
+                  Container(
+                    color: Color(0xffdac9f6),
+                    width: 20,
+                    height: 20,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

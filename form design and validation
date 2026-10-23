@@ -1,0 +1,104 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          filled: true,
+          fillColor: Colors.deepOrange[50],
+        ),
+      ),
+      home: const MyForm(),
+    ));
+
+class MyForm extends StatefulWidget {
+  const MyForm({super.key});
+  @override
+  State<MyForm> createState() => _MyFormState();
+}
+
+class _MyFormState extends State<MyForm> {
+  final key = GlobalKey<FormState>();
+  final name = TextEditingController();
+  final email = TextEditingController();
+  final password = TextEditingController();
+
+  Widget field(TextEditingController c, String label, IconData icon,
+          String? Function(String?)? check,
+          {bool hidden = false, TextInputType type = TextInputType.text}) =>
+      TextFormField(
+        controller: c,
+        obscureText: hidden,
+        keyboardType: type,
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: Icon(icon, color: Colors.deepPurple[900]),
+        ),
+        validator: (v) => v == null || v.isEmpty
+            ? 'Please enter your ${label.toLowerCase()}'
+            : check?.call(v),
+      );
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: Colors.amber.shade50,
+        appBar: AppBar(
+          title: const Text('Form'),
+          backgroundColor: Colors.deepPurple[900],
+          foregroundColor: Colors.deepOrange[50],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
+          child: Form(
+            key: key,
+            child: Column(children: [
+              field(name, 'Name', Icons.person, null),
+              const SizedBox(height: 16),
+              field(
+                  email,
+                  'Email',
+                  Icons.email,
+                  (v) => RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$')
+                          .hasMatch(v!)
+                      ? null
+                      : 'Please enter a valid email address',
+                  type: TextInputType.emailAddress),
+              const SizedBox(height: 16),
+              field(
+                  password,
+                  'Password',
+                  Icons.lock,
+                  (v) => v!.length < 6
+                      ? 'Password must be at least 6 characters long'
+                      : null,
+                  hidden: true),
+              const SizedBox(height: 24),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.send),
+                label: const Text('Submit',
+                    style: TextStyle(fontSize: 18, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple[900],
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
+                onPressed: () {
+                  if (key.currentState!.validate()) {
+                    debugPrint('Name: ${name.text}');
+                    debugPrint('Email: ${email.text}');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Form submitted successfully!'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  }
+                },
+              ),
+            ]),
+          ),
+        ),
+      );
+}

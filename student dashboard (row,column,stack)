@@ -1,0 +1,187 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: StudentDashboard(),
+  ));
+}
+
+class StudentDashboard extends StatefulWidget {
+  @override
+  State<StudentDashboard> createState() => _StudentDashboardState();
+}
+
+class _StudentDashboardState extends State<StudentDashboard> {
+  bool notification = false;
+  int counter = 0;
+
+  Widget feature(IconData icon, String text) {
+    return Column(
+      children: [
+        Container(
+          width: 75,
+          height: 75,
+          decoration: BoxDecoration(
+            color: Colors.blue.shade100,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Icon(icon, size: 40, color: Colors.blue),
+        ),
+        SizedBox(height: 8),
+        Text(text, style: TextStyle(fontSize: 18)),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Student Dashboard"),
+        backgroundColor: Colors.blue,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Banner
+            Stack(
+              children: [
+                Image.asset(
+                  "assets/banner1.jpg",
+                  width: double.infinity,
+                  height: 250,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                  left: 20,
+                  bottom: 25,
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage("assets/logo.jpg"),
+                  ),
+                ),
+                Positioned(
+                  left: 130,
+                  bottom: 40,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Vajrapu Harshini",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "Computer Science Student",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 20),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                feature(Icons.book, "Books"),
+                feature(Icons.assignment, "Tasks"),
+                feature(Icons.school, "Marks"),
+                feature(Icons.person, "Profile"),
+              ],
+            ),
+
+            SizedBox(height: 30),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text("Login"),
+                ),
+                OutlinedButton(
+                  onPressed: () {},
+                  child: Text("Register"),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 25),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Notifications",
+                  style: TextStyle(fontSize: 20),
+                ),
+                Switch(
+                  value: notification,
+                  onChanged: (value) {
+                    setState(() {
+                      notification = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+
+            SizedBox(height: 20),
+
+            Text(
+              "Counter",
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            SizedBox(height: 10),
+
+            Text(
+              "$counter",
+              style: TextStyle(
+                fontSize: 50,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            SizedBox(height: 20),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      counter--;
+                    });
+                  },
+                  child: Text("-"),
+                ),
+                SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      counter++;
+                    });
+                  },
+                  child: Text("+"),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

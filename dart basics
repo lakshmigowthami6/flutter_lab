@@ -1,0 +1,25 @@
+void main(){
+  //variables
+  int a=24;
+  var name="vikram";
+  var name2="singh";
+  print("age of $name $name2 is $a");
+  //arithmetic operators
+  int n1=10;
+  int n2=5;
+  int sum=n1+n2;
+  int diff=n1-n2;
+  int pro=n1*n2;
+  double div=n1/n2;
+  print("sum is $sum");
+  print("diff is $diff");
+  print("product is $pro");
+  print("div is $div");
+  //conditional statements
+  int age =19;
+  if(age>19){
+    print("eligible to vote");
+  }else{
+    print("not eligible to vote"); 
+  } 
+}

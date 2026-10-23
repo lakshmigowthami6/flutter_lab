@@ -1,0 +1,176 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: true,
+      title: 'Flutter Animations',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const AnimationDemo(),
+    );
+  }
+}
+
+class AnimationDemo extends StatefulWidget {
+  const AnimationDemo({super.key});
+
+  @override
+  State<AnimationDemo> createState() => _AnimationDemoState();
+}
+
+class _AnimationDemoState extends State<AnimationDemo>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  late Animation<double> fadeAnimation;
+  late Animation<Offset> slideAnimation;
+  late Animation<double> scaleAnimation;
+  late Animation<double> rotationAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
+    // Fade animation
+    fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_controller);
+
+    // Slide animation
+    slideAnimation = Tween<Offset>(
+      begin: const Offset(-1.0, 0.0),
+      end: Offset.zero,
+    ).animate(_controller);
+
+    // Scale animation
+    scaleAnimation = Tween<double>(
+      begin: 0.3,
+      end: 1.0,
+    ).animate(_controller);
+
+    // Rotation animation
+    rotationAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_controller);
+  }
+
+  void startAnimation() {
+    _controller.forward(from: 0.0);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter Animation Demo'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // FADE ANIMATION
+            FadeTransition(
+              opacity: fadeAnimation,
+              child: const Text(
+                'Fade Animation',
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 25),
+
+            // SLIDE ANIMATION
+            SlideTransition(
+              position: slideAnimation,
+              child: Container(
+                width: 200,
+                height: 60,
+                color: Colors.blue,
+                alignment: Alignment.center,
+                child: const Text(
+                  'Slide Animation',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 25),
+
+            // SCALE ANIMATION
+            ScaleTransition(
+              scale: scaleAnimation,
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/banner.jpg',
+                    width: 150,
+                    height: 150,
+                  ),
+                  const Text(
+                    'Scale Animation',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // ROTATION ANIMATION
+            RotationTransition(
+              turns: rotationAnimation,
+              child: const Icon(
+                Icons.star,
+                size: 70,
+                color: Colors.orange,
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            // BUTTON
+            ElevatedButton(
+              onPressed: startAnimation,
+              child: const Text(
+                'Start Animation',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
